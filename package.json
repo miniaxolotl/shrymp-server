@@ -1,0 +1,51 @@
+{
+	"name": "shrimp-server",
+	"version": "0.0.1",
+	"license": "GPLv3",
+	"repository": "https://github.com/ottxrgxist/shrimp",
+	"author": "Elias Mawa",
+	"private": true,
+	"scripts": {
+		"watch": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/server.ts",
+		"serve": "ts-node ./src/server.ts",
+		"build": "tsc",
+		"start": "node dist/src/server.js",
+		"lint": "eslint . --ext .ts,.tsx"
+	},
+	"dependencies": {
+		"@koa/cors": "^3.1.0",
+		"bcrypt": "^5.0.0",
+		"joi": "^17.3.0",
+		"koa": "^2.13.1",
+		"koa-bodyparser": "^4.3.0",
+		"koa-json": "^2.0.2",
+		"koa-router": "^10.0.0",
+		"koa-websocket": "^6.0.0",
+		"mongodb": "3.6.3",
+		"mysql": "^2.18.1",
+		"node": "^15.4.0",
+		"node-fetch": "^2.6.1",
+		"typeorm": "^0.2.30",
+		"uid": "^2.0.0",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^3.0.0",
+		"@types/joi": "^17.2.3",
+		"@types/koa": "^2.11.6",
+		"@types/koa-bodyparser": "^4.3.0",
+		"@types/koa-json": "^2.0.18",
+		"@types/koa-router": "^7.4.1",
+		"@types/koa-session": "^5.10.3",
+		"@types/koa-websocket": "^5.0.5",
+		"@types/koa__cors": "^3.0.2",
+		"@types/node": "^14.14.22",
+		"@types/node-fetch": "^2.5.8",
+		"@types/uuid": "^8.3.0",
+		"eslint": "^7.18.0",
+		"nodemon": "^2.0.7",
+		"prettier": "^2.3.1",
+		"ts-node": "^9.1.1",
+		"typescript": "^4.1.3"
+	}
+}

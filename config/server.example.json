@@ -1,0 +1,9 @@
+{
+	"port": 3001,
+	"production": false,
+	"crypt": {
+		"secrets": [ "super-duper-secret" ],
+		"key": "super-duper-secret",
+		"salt_rounds": 8
+	}
+}
