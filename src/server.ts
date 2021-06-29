@@ -119,12 +119,12 @@ app.use(BodyParser());
  * routes
  ************************************************/
 
-{ /* api */
-	const api: Router = new Router();
-
-	//  api.use("/auth", AuthController.routes());
-	
-	router.use("/api", api.routes());
+{
+	const ping: Router = new Router();
+	ping.all("/", (ctx) => {
+		ctx.body = 'Pong!'
+	});
+	router.use("/ping", ping.routes());
 }
 
 { /* api/v1 */
@@ -151,7 +151,7 @@ app.ws.use(socket_router.routes() as any);
 
 app.listen(server_config.port, () => {
 	console.log(`Server listening: http://localhost:${server_config.port}`);
-	console.log(app);
+	console.log(`enviroment: ${app.env}`);
 });
 
 
