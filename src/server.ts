@@ -14,6 +14,7 @@ import KoaSession from 'koa-session';
 import websockify from 'koa-websocket'
 
 import { createConnection } from "typeorm";
+import { LinkModel } from './model';
 //  import * as ModelsMysql from './model/mysql';
 //  import * as ModelsMongo from './model/mongo';
 
@@ -64,7 +65,7 @@ const socket_router = new Router();
 		...db_config.maria,
 		type: "mariadb",
 		entities: [
-
+			LinkModel
 		],
 		synchronize: !server_config.production,
 	}).then((connection) => {
@@ -118,10 +119,6 @@ app.use(BodyParser());
  * routes
  ************************************************/
 
-router.use('/', (ctx) => {
-	ctx.body = "hello world!"
-});
-
 { /* api */
 	const api: Router = new Router();
 
@@ -154,5 +151,9 @@ app.ws.use(socket_router.routes() as any);
 
 app.listen(server_config.port, () => {
 	console.log(`Server listening: http://localhost:${server_config.port}`);
+	console.log(app);
 });
 
+
+
+export default app;

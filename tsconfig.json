@@ -23,12 +23,14 @@
 
 		"types": [
 			"node",
+			"jest"
 		]
     },
 	"exclude": [
 		"node_modules/"
 	],
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "./spec/**/*"
     ]
 }
