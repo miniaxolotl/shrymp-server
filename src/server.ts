@@ -14,7 +14,7 @@ import KoaSession from 'koa-session';
 import websockify from 'koa-websocket'
 
 import { createConnection } from "typeorm";
-import { LinkModel } from './model';
+import { DomainModel, LinkDomainModel, LinkModel } from './model';
 //  import * as ModelsMysql from './model/mysql';
 //  import * as ModelsMongo from './model/mongo';
 
@@ -22,6 +22,7 @@ import { Session } from './lib/Session';
 
 import server_config from "../config/server.json";
 import db_config from "../config/db.json";
+import { v1 } from './controller';
 
 /************************************************
  * setup
@@ -58,19 +59,21 @@ const socket_router = new Router();
 	});
 })();
 
-/**** mysql *****/
+/**** maria *****/
 
 (async () => {
 	createConnection({
 		...db_config.maria,
 		type: "mariadb",
 		entities: [
+			DomainModel,
+			LinkDomainModel,
 			LinkModel
 		],
 		synchronize: !server_config.production,
 	}).then((connection) => {
-		(app.context as any).mysql = connection;
-		console.log("connected to database: mysql");
+		(app.context as any).maria = connection;
+		console.log("connected to database: mariadb");
 	}).catch((error) => {
 		console.log(error);
 	});
@@ -86,7 +89,7 @@ const socket_router = new Router();
  * middleware
  ************************************************/
 
-app.keys = server_config.crypt.secrets;
+app.keys = server_config.crypt.sessionKeys;
 
 app.use(KoaSession({
 		key: 'session',
@@ -128,11 +131,11 @@ app.use(BodyParser());
 }
 
 { /* api/v1 */
-	const v1: Router = new Router();
+	const APIv1: Router = new Router();
 
-	//  v1.use("/auth", V1AuthController.routes());
+	APIv1.use("/link", v1.LinkController.routes());
 
-	router.use("/api/v1", v1.routes());
+	router.use("/api/v1", APIv1.routes());
 }
 
 app.use(router.routes());
