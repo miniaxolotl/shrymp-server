@@ -22,7 +22,7 @@ import { Session } from './lib/Session';
 
 import server_config from "../config/server.json";
 import db_config from "../config/db.json";
-import { v1 } from './controller';
+import { IndexController, v1 } from './controller';
 
 /************************************************
  * setup
@@ -122,12 +122,12 @@ app.use(BodyParser());
  * routes
  ************************************************/
 
-{
-	const ping: Router = new Router();
-	ping.all("/", (ctx) => {
-		ctx.body = 'Pong!'
-	});
-	router.use("/ping", ping.routes());
+ { /* root */
+	const Root: Router = new Router();
+
+	Root.use("", IndexController.routes());
+
+	router.use("", Root.routes());
 }
 
 { /* api/v1 */
