@@ -36,6 +36,23 @@
 	}
 };
 
+ /*** 3xx ***/
+
+ export const REDIRECTION = {
+	PERMANENT: {
+		status: 301,
+		message: "Redirection: Moved permanently."
+	},
+	TEMPORARY: {
+		status: 302,
+		message: "Redirection: Moved temporarily."
+	},
+	NOT_FOUND: {
+		status: 404,
+		message: "Client Error: Not found."
+	}
+};
+
  /*** 4xx ***/
 
  export const CLIENT_ERROR = {
@@ -72,6 +89,7 @@ export const SERVER_ERROR = {
 
 export const HttpStatus = {
 	SUCCESS,
+	REDIRECTION,
 	CLIENT_ERROR,
 	SERVER_ERROR,
 
