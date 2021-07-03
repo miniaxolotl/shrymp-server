@@ -1,10 +1,10 @@
-import { ParameterizedContext } from "koa";
-import Router from "koa-router";
+import { ParameterizedContext } from 'koa';
+import Router from 'koa-router';
 
-import { HttpStatus } from "../../lib";
-import { LinkSchema } from "../../schema";
+import { HttpStatus } from '../../lib';
+import { LinkSchema } from '../../schema';
 
-import { createTinyLink, findTinyLink, saveTinyLink } from "../../lib/Link";
+import { createTinyLink, findTinyLink, saveTinyLink } from '../../lib/Link';
 
 const router: Router = new Router();
 
@@ -12,9 +12,9 @@ const router: Router = new Router();
  * routes
  ************************************************/
 
- router.get("/:tiny_url", async (ctx: ParameterizedContext) => {
+router.get('/:tiny_url', async (ctx: ParameterizedContext) => {
 
-	const link_data = await findTinyLink({db: ctx.maria, tiny_url: ctx.params.tiny_url});
+	const link_data = await findTinyLink({ db: ctx.maria, tiny_url: ctx.params.tiny_url });
 
 	if(link_data) {
 		ctx.status = HttpStatus.SUCCESS.OK.status;
@@ -27,7 +27,7 @@ const router: Router = new Router();
 	}
 });
 
-router.post("/", async (ctx: ParameterizedContext) => {
+router.post('/', async (ctx: ParameterizedContext) => {
 
 	const body = ctx.request.body;
 
@@ -43,7 +43,7 @@ router.post("/", async (ctx: ParameterizedContext) => {
 		return;
 	} else {
 		const newLink = createTinyLink({ long_url: value.long_url });
-		const result = await saveTinyLink({ db: ctx.maria, newLink: newLink});
+		const result = await saveTinyLink({ db: ctx.maria, newLink: newLink });
 		
 		if(result) {
 			ctx.status = HttpStatus.SUCCESS.CREATED.status;

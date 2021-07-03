@@ -1,4 +1,4 @@
- /**
+/**
  * http-status.ts
  * Collection of status codes.
  * Notes:
@@ -9,64 +9,64 @@
  * ANCHOR error
  ************************************************/
 
- /*** 1xx ***/
+/*** 1xx ***/
 
- /*** 2xx ***/
+/*** 2xx ***/
 
- export const SUCCESS = {
+export const SUCCESS = {
 	OK: {
 		status: 200,
-		message: "Success: Ok."
+		message: 'Success: Ok.'
 	},
 	CREATED: {
 		status: 201,
-		message: "Success: Created."
+		message: 'Success: Created.'
 	},
 	ACCEPTED: {
 		status: 202,
-		message: "Success: Accepted."
+		message: 'Success: Accepted.'
 	},
 	NO_CONTENT: {
 		status: 204,
-		message: "Success: No content."
+		message: 'Success: No content.'
 	},
 	PARTIAL_CONTENT: {
 		status: 206,
-		message: "Success: Partial content."
+		message: 'Success: Partial content.'
 	}
 };
 
- /*** 3xx ***/
+/*** 3xx ***/
 
- export const REDIRECTION = {
+export const REDIRECTION = {
 	PERMANENT: {
 		status: 301,
-		message: "Redirection: Moved permanently."
+		message: 'Redirection: Moved permanently.'
 	},
 	TEMPORARY: {
 		status: 302,
-		message: "Redirection: Moved temporarily."
+		message: 'Redirection: Moved temporarily.'
 	},
 	NOT_FOUND: {
 		status: 404,
-		message: "Client Error: Not found."
+		message: 'Client Error: Not found.'
 	}
 };
 
- /*** 4xx ***/
+/*** 4xx ***/
 
- export const CLIENT_ERROR = {
+export const CLIENT_ERROR = {
 	BAD_REQUEST: {
 		status: 400,
-		message: "Client Error: Bad request."
+		message: 'Client Error: Bad request.'
 	},
 	UNAUTHORIZED: {
 		status: 401,
-		message: "Client Error: Unauthoriszed."
+		message: 'Client Error: Unauthoriszed.'
 	},
 	NOT_FOUND: {
 		status: 404,
-		message: "Client Error: Not found."
+		message: 'Client Error: Not found.'
 	}
 };
 
@@ -75,15 +75,15 @@
 export const SERVER_ERROR = {
 	INTERNAL: {
 		status: 500,
-		message: "Server Error: Internal server error."
+		message: 'Server Error: Internal server error.'
 	},
 	NOT_IMPLEMENTED: {
 		status: 501,
-		message: "Server Error: Gateway not implemented."
+		message: 'Server Error: Gateway not implemented.'
 	},
 	BAD_GATEWAY: {
 		status: 502,
-		message: "Server Error: Bad gateway."
+		message: 'Server Error: Bad gateway.'
 	}
 };
 
@@ -91,6 +91,6 @@ export const HttpStatus = {
 	SUCCESS,
 	REDIRECTION,
 	CLIENT_ERROR,
-	SERVER_ERROR,
+	SERVER_ERROR
 
-}
+};

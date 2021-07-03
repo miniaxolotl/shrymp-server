@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { DomainModel, LinkModel } from "./";
 

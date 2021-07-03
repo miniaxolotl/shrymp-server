@@ -1,4 +1,4 @@
-import { LinkSchema } from "./link.schema"
+import { LinkSchema } from './link.schema';
 
 export {
 	LinkSchema

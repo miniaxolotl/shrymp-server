@@ -6,22 +6,20 @@
 
 import Koa from 'koa';
 
-import CORS from '@koa/cors';
-import Router from 'koa-router';
 import BodyParser from 'koa-bodyparser';
+import CORS from '@koa/cors';
 import KoaJSON from 'koa-json';
 import KoaSession from 'koa-session';
-import websockify from 'koa-websocket'
+import Router from 'koa-router';
+import websockify from 'koa-websocket';
 
-import { createConnection } from "typeorm";
+import { createConnection } from 'typeorm';
 import { DomainModel, LinkDomainModel, LinkModel } from './model';
-//  import * as ModelsMysql from './model/mysql';
-//  import * as ModelsMongo from './model/mongo';
 
 import { Session } from './lib/Session';
 
-import server_config from "../config/server.json";
-import db_config from "../config/db.json";
+import db_config from '../config/db.json';
+import server_config from '../config/server.json';
 import { IndexController, v1 } from './controller';
 
 /************************************************
@@ -45,16 +43,18 @@ const socket_router = new Router();
 (async () => {
 	createConnection({
 		...db_config.mongo,
-		type: "mongodb",
+		type: 'mongodb',
 		entities: [
 
 		],
 		useUnifiedTopology: true,
-		synchronize: !server_config.production,
+		synchronize: !server_config.production
 	}).then((connection) => {
 		(app.context as any).mongo = connection;
-		console.log("connected to database: mongodb");
+		// eslint-disable-next-line no-console
+		console.log('connected to database: mongodb');
 	}).catch((error) => {
+		// eslint-disable-next-line no-console
 		console.log(error);
 	});
 })();
@@ -64,17 +64,19 @@ const socket_router = new Router();
 (async () => {
 	createConnection({
 		...db_config.maria,
-		type: "mariadb",
+		type: 'mariadb',
 		entities: [
 			DomainModel,
 			LinkDomainModel,
 			LinkModel
 		],
-		synchronize: !server_config.production,
+		synchronize: !server_config.production
 	}).then((connection) => {
 		(app.context as any).maria = connection;
-		console.log("connected to database: mariadb");
+		// eslint-disable-next-line no-console
+		console.log('connected to database: mariadb');
 	}).catch((error) => {
+		// eslint-disable-next-line no-console
 		console.log(error);
 	});
 })();
@@ -92,11 +94,11 @@ const socket_router = new Router();
 app.keys = server_config.crypt.sessionKeys;
 
 app.use(KoaSession({
-		key: 'session',
-		maxAge: 1000*60*60*24*30,
-		renew: true,
-	}, 
-	app
+	key: 'session',
+	maxAge: 1000*60*60*24*30,
+	renew: true
+}, 
+app
 ));
 
 app.use(CORS({
@@ -115,35 +117,34 @@ app.use(BodyParser());
 (app.context as Koa.BaseContext & { state: Session }).state = {
 	session_id: null,
 	user_id: null,
-	email: null,
+	email: null
 };
 
 /************************************************
  * routes
  ************************************************/
 
- { /* root */
+{ /* root */
 	const Root: Router = new Router();
 
-	Root.use("", IndexController.routes());
+	Root.use('', IndexController.routes());
 
-	router.use("", Root.routes());
+	router.use('', Root.routes());
 }
 
 { /* api/v1 */
 	const APIv1: Router = new Router();
 
-	APIv1.use("/link", v1.LinkController.routes());
+	APIv1.use('/link', v1.LinkController.routes());
 
-	router.use("/api/v1", APIv1.routes());
+	router.use('/api/v1', APIv1.routes());
 }
 
 app.use(router.routes());
 
 { /* websocket */
-	socket_router.all('/', async (ctx: any) => {
-		// do something
-	});
+	// socket_router.all('/', async (ctx) => {
+	// });
 }
 
 app.ws.use(socket_router.routes() as any);
@@ -153,7 +154,9 @@ app.ws.use(socket_router.routes() as any);
  ************************************************/
 
 app.listen(server_config.port, () => {
+	// eslint-disable-next-line no-console
 	console.log(`Server listening: http://localhost:${server_config.port}`);
+	// eslint-disable-next-line no-console
 	console.log(`enviroment: ${app.env}`);
 });
 

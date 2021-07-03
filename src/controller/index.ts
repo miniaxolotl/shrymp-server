@@ -4,4 +4,4 @@ import { IndexController } from './index.controller';
 export {
 	v1,
 	IndexController
-}
+};
