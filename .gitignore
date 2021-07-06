@@ -6,3 +6,4 @@ coverage/
 /config/*
 !/config/db.example.json
 !/config/server.example.json
+!/config/domains.example.json
