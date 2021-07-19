@@ -1,10 +1,3 @@
-/**
- * http-status.ts
- * Collection of status codes.
- * Notes:
- * - N/A
- */
-
 /************************************************
  * ANCHOR error
  ************************************************/
@@ -92,5 +85,4 @@ export const HttpStatus = {
 	REDIRECTION,
 	CLIENT_ERROR,
 	SERVER_ERROR
-
 };
