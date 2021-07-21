@@ -91,7 +91,7 @@ const socket_router = new Router();
  * middleware
  ************************************************/
 
-app.keys = server_config.crypt.sessionKeys;
+app.keys = server_config.sessionKeys;
 
 app.use(KoaSession({
 	key: 'session',

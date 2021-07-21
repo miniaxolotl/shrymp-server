@@ -1,16 +1,16 @@
 {
 	"mongo": {
-		"host": "0.0.0.0",
+		"host": "mongo.tinysorbet.moe",
 		"port": 27017,
-		"database": "shrimp-dev",
+		"database": "shrymp-dev",
 		"authSource": "authDB",
 		"username": "username",
 		"password": "password"
 	},
 	"maria": {
-		"host": "0.0.0.0",
+		"host": "maria.tinysorbet.moe",
 		"port": 3306,
-		"database": "shrimp-dev",
+		"database": "shrymp-dev",
 		"username": "username",
 		"password": "password"
 	}
