@@ -5,7 +5,7 @@ export class DomainModel {
 	@PrimaryGeneratedColumn()
 	id!: number;
 	
-	@Column({ type: 'varchar', nullable: false })
+	@Column({ type: 'varchar', nullable: false, unique: true  })
 	domain: string | undefined;
 
 	@CreateDateColumn()
