@@ -1,7 +1,7 @@
 import { Connection } from 'typeorm';
 import { nanoid } from 'nanoid';
 
-import { LinkModel } from '../model';
+import { LinkDomainModel, LinkModel } from '../model';
 
 export interface Link {
 	longURL?: string;
@@ -9,7 +9,7 @@ export interface Link {
 	createdAt?: Date;
 };
 
-export const createTinyLink = ({
+export const createLink = ({
 	long_url
 }: {
 	long_url: string;
@@ -22,18 +22,37 @@ export const createTinyLink = ({
 	return newLink;
 };
 
-export const saveTinyLink = async ({
+export const createLinkDomain = ({
+	link,
+	domain_id
+}: {
+	link: LinkModel;
+	domain_id: number;
+}) => {
+	const newLinkDomain = new LinkDomainModel();
+
+	newLinkDomain.link = link;
+	newLinkDomain.domain = domain_id;
+
+	return newLinkDomain;
+};
+
+export const saveLink = async ({
 	db,
-	newLink
+	newLink,
+	domain_id
 }: {
 	db: Connection;
 	newLink: LinkModel;
+	domain_id: number;
 }): Promise<boolean> => {
 	return await new Promise((resolve, reject) => {
 		db.transaction(async (transaction) => {
 			await transaction.save(newLink);
-			// FIXME this is to hide internal id
-			newLink.id = undefined;
+			await transaction.save(createLinkDomain({
+				link: newLink,
+				domain_id
+			}));
 			resolve(true);
 		}).catch(() => {
 			reject(false);
@@ -49,7 +68,7 @@ export const findTinyLink = async ({
 	tiny_url: string;
 }): Promise<LinkModel | null> => {
 	const link_data: LinkModel[] = await db.query(`
-		SELECT * FROM link
+		SELECT long_url, tiny_url, create_date FROM link
 		WHERE tiny_url = ?`,
 	[ tiny_url ]
 	);

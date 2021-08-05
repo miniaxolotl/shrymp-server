@@ -4,7 +4,7 @@ import Router from 'koa-router';
 import { HttpStatus } from '../../lib';
 import { LinkSchema } from '../../schema';
 
-import { createTinyLink, findTinyLink, saveTinyLink } from '../../lib/Link';
+import { createLink, findTinyLink, saveLink } from '../../lib/Link';
 
 const router: Router = new Router();
 
@@ -35,15 +35,19 @@ router.post('/', async (ctx: ParameterizedContext) => {
 		abortEarly: false,
 		errors: { escapeHtml: true }
 	});
-
+	
 	if(error) {
 		ctx.status = HttpStatus.CLIENT_ERROR.BAD_REQUEST.status;
 		ctx.body = { errors: [] };
 		error.details.forEach(e => { (ctx.body as any).errors.push(e.message); });
 		return;
 	} else {
-		const newLink = createTinyLink({ long_url: value.long_url });
-		const result = await saveTinyLink({ db: ctx.maria, newLink: newLink });
+		const newLink = createLink({ long_url: value.long_url });
+		const result = await saveLink({
+			db: ctx.maria,
+			newLink: newLink,
+			domain_id: value.domain_id
+		});
 		
 		if(result) {
 			ctx.status = HttpStatus.SUCCESS.CREATED.status;
