@@ -17,6 +17,7 @@ import { createConnection } from 'typeorm';
 import { DomainModel, LinkDomainModel, LinkModel } from './model';
 
 import { Session } from './lib/Session';
+import { loadAllDomain } from './lib/Domain';
 
 import db_config from '../config/db.json';
 import server_config from '../config/server.json';
@@ -71,10 +72,18 @@ const socket_router = new Router();
 			LinkModel
 		],
 		synchronize: !server_config.production
-	}).then((connection) => {
+	}).then(async (connection) => {
 		(app.context as any).maria = connection;
 		// eslint-disable-next-line no-console
 		console.log('connected to database: mariadb');
+
+		await loadAllDomain({ db: connection }).then(() => {
+			// eslint-disable-next-line no-console
+			console.log('domains: success');
+		}).catch(() => {
+			// eslint-disable-next-line no-console
+			console.log('domains: failure');
+		});
 	}).catch((error) => {
 		// eslint-disable-next-line no-console
 		console.log(error);
