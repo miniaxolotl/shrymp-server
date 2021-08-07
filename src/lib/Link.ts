@@ -10,14 +10,16 @@ export interface Link {
 };
 
 export const createLink = ({
-	long_url
+	long_url,
+	tiny_url
 }: {
 	long_url: string;
+	tiny_url?: string;
 }) => {
 	const newLink = new LinkModel();
 
 	newLink.long_url = long_url;
-	newLink.tiny_url = nanoid(8);
+	newLink.tiny_url = tiny_url ? tiny_url : nanoid(8);
 
 	return newLink;
 };
@@ -72,7 +74,6 @@ export const findTinyLink = async ({
 		WHERE tiny_url = ?`,
 	[ tiny_url ]
 	);
-
 	if(link_data.length > 0) {
 		// FIXME this is to hide internal id
 		link_data[0].id = undefined;

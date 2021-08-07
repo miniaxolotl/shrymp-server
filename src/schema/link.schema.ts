@@ -9,7 +9,7 @@ export const LinkSchema = object({
 		.uri()
 		.required(),
 
-	tiny_url: joi.number()
+	tiny_url: joi.string()
 		.default(null)
 		.optional()
 });

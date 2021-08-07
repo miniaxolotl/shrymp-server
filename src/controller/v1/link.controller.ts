@@ -42,20 +42,29 @@ router.post('/', async (ctx: ParameterizedContext) => {
 		error.details.forEach(e => { (ctx.body as any).errors.push(e.message); });
 		return;
 	} else {
-		const newLink = createLink({ long_url: value.long_url });
-		const result = await saveLink({
-			db: ctx.maria,
-			newLink: newLink,
-			domain_id: value.domain_id
-		});
-		
-		if(result) {
-			ctx.status = HttpStatus.SUCCESS.CREATED.status;
-			ctx.body = newLink;
-			return;
+		const exists = await findTinyLink({ db: ctx.maria, tiny_url: value.tiny_url });
+		if(!exists) {
+			const newLink = createLink({
+				long_url: value.long_url,
+				tiny_url: value.tiny_url
+			});
+			const result = await saveLink({
+				db: ctx.maria,
+				newLink: newLink,
+				domain_id: value.domain_id
+			});
+			if(result) {
+				ctx.status = HttpStatus.SUCCESS.CREATED.status;
+				ctx.body = newLink;
+				return;
+			} else {
+				ctx.status = HttpStatus.SERVER_ERROR.INTERNAL.status;
+				ctx.body = HttpStatus.SERVER_ERROR.INTERNAL.message;;
+				return;
+			}
 		} else {
-			ctx.status = HttpStatus.SERVER_ERROR.INTERNAL.status;
-			ctx.body = HttpStatus.SERVER_ERROR.INTERNAL.message;;
+			ctx.status = HttpStatus.CLIENT_ERROR.CONFILCT.status;
+			ctx.body = HttpStatus.CLIENT_ERROR.CONFILCT.message;;
 			return;
 		}
 	}

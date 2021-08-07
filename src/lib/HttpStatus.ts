@@ -60,6 +60,10 @@ export const CLIENT_ERROR = {
 	NOT_FOUND: {
 		status: 404,
 		message: 'Client Error: Not found.'
+	},
+	CONFILCT: {
+		status: 409,
+		message: 'Client Error: Conflict.'
 	}
 };
 
