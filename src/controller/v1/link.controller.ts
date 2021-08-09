@@ -4,6 +4,7 @@ import Router from 'koa-router';
 import { HttpStatus } from '../../lib';
 import { LinkSchema } from '../../schema';
 
+import { findDomainByLink } from '../../lib/Domain';
 import { createLink, findTinyLink, saveLink } from '../../lib/Link';
 
 const router: Router = new Router();
@@ -15,11 +16,24 @@ const router: Router = new Router();
 router.get('/:tiny_url', async (ctx: ParameterizedContext) => {
 
 	const link_data = await findTinyLink({ db: ctx.maria, tiny_url: ctx.params.tiny_url });
-
-	if(link_data) {
-		ctx.status = HttpStatus.SUCCESS.OK.status;
-		ctx.body = link_data;
-		return;
+	
+	if(link_data && link_data.id) {
+		const domain_data = await findDomainByLink({ db: ctx.maria, link_id: link_data.id });
+		
+		if(domain_data && domain_data.id) {
+			ctx.status = HttpStatus.SUCCESS.OK.status;
+			ctx.body = {
+				domain: domain_data.domain,
+				long_url: link_data.long_url,
+				tiny_url: link_data.tiny_url,
+				create_date: link_data.create_date
+			};
+			return;
+		} else {
+			ctx.status = HttpStatus.CLIENT_ERROR.NOT_FOUND.status;
+			ctx.body = HttpStatus.CLIENT_ERROR.NOT_FOUND.message;;
+			return;
+		}
 	} else {
 		ctx.status = HttpStatus.CLIENT_ERROR.NOT_FOUND.status;
 		ctx.body = HttpStatus.CLIENT_ERROR.NOT_FOUND.message;;

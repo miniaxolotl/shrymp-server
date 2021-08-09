@@ -70,13 +70,11 @@ export const findTinyLink = async ({
 	tiny_url: string;
 }): Promise<LinkModel | null> => {
 	const link_data: LinkModel[] = await db.query(`
-		SELECT long_url, tiny_url, create_date FROM link
+		SELECT * FROM link
 		WHERE tiny_url = ?`,
 	[ tiny_url ]
 	);
 	if(link_data.length > 0) {
-		// FIXME this is to hide internal id
-		link_data[0].id = undefined;
 		return link_data[0];
 	} else {
 		return null;

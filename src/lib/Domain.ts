@@ -78,6 +78,28 @@ export const findDomainByName = async ({
 	}
 };
 
+export const findDomainByLink = async ({
+	db,
+	link_id
+}: {
+	db: Connection;
+	link_id: number;
+}): Promise<DomainModel | null> => {
+	const domain_data: DomainModel[] = await db.query(`
+		SELECT domain.* FROM domain
+		INNER JOIN link_domain
+		ON domain.id = link_domain.domain_id
+		WHERE link_id = ?`,
+	[ link_id ]
+	);
+
+	if(domain_data.length > 0) {
+		return domain_data[0];
+	} else {
+		return null;
+	}
+};
+
 export const loadAllDomain = async ({
 	db
 }: {
