@@ -2,7 +2,7 @@
 	"name": "shrymp-server",
 	"version": "0.0.1",
 	"license": "GPLv3",
-	"repository": "https://github.com/theluckyegg/shrimp",
+	"repository": "https://github.com/theluckyegg/shrymp-server",
 	"author": "Elias Mawa",
 	"private": true,
 	"scripts": {

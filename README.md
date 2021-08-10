@@ -1,1 +1,1 @@
-# shrimp
+# shrymp-server
