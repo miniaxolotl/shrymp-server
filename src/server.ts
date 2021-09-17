@@ -144,6 +144,8 @@ app.use(BodyParser());
 { /* api/v1 */
 	const APIv1: Router = new Router();
 
+	APIv1.use('/d', v1.DomainController.routes());
+	APIv1.use('/domain', v1.DomainController.routes());
 	APIv1.use('/l', v1.LinkController.routes());
 	APIv1.use('/link', v1.LinkController.routes());
 

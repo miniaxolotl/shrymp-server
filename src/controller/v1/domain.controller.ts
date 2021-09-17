@@ -3,7 +3,7 @@ import Router from 'koa-router';
 
 import { HttpStatus } from '../../lib';
 
-import { findTinyLink } from '../../lib/Link';
+import { findDomain, getAllDomain } from '../../lib/Domain';
 
 const router: Router = new Router();
 
@@ -13,11 +13,11 @@ const router: Router = new Router();
 
 router.get('/', async (ctx: ParameterizedContext) => {
 
-	const link_data = await findTinyLink({ db: ctx.maria, tiny_url: ctx.params.tiny_url });
-
-	if(link_data) {
+	const domain_list = await getAllDomain({ db: ctx.maria });
+	
+	if(domain_list) {
 		ctx.status = HttpStatus.SUCCESS.OK.status;
-		ctx.body = link_data;
+		ctx.body = domain_list;
 		return;
 	} else {
 		ctx.status = HttpStatus.CLIENT_ERROR.NOT_FOUND.status;
@@ -28,11 +28,11 @@ router.get('/', async (ctx: ParameterizedContext) => {
 
 router.get('/:domain_id', async (ctx: ParameterizedContext) => {
 
-	const link_data = await findTinyLink({ db: ctx.maria, tiny_url: ctx.params.tiny_url });
+	const domain = await findDomain({ db: ctx.maria, domain_id: parseInt(ctx.params.domain_id) });
 
-	if(link_data) {
+	if(domain) {
 		ctx.status = HttpStatus.SUCCESS.OK.status;
-		ctx.body = link_data;
+		ctx.body = domain;
 		return;
 	} else {
 		ctx.status = HttpStatus.CLIENT_ERROR.NOT_FOUND.status;
@@ -42,5 +42,5 @@ router.get('/:domain_id', async (ctx: ParameterizedContext) => {
 });
 
 export {
-	router as LinkController
+	router as DomainController
 };
