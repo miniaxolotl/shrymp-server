@@ -69,7 +69,11 @@ router.post('/', async (ctx: ParameterizedContext) => {
 			});
 			if(result) {
 				ctx.status = HttpStatus.SUCCESS.CREATED.status;
-				ctx.body = newLink;
+				ctx.body = {
+					long_url: newLink.long_url,
+					tiny_url: newLink.tiny_url,
+					create_date: newLink.create_date
+				};
 				return;
 			} else {
 				ctx.status = HttpStatus.SERVER_ERROR.INTERNAL.status;
