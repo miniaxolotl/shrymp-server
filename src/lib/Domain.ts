@@ -47,7 +47,7 @@ export const findDomain = async ({
 }): Promise<DomainModel | null> => {
 	const domain_data: DomainModel[] = await db.query(`
 		SELECT * FROM domain
-		WHERE domain_id = ?`,
+		WHERE id = ?`,
 	[ domain_id ]
 	);
 

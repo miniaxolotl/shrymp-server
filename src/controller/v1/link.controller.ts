@@ -4,8 +4,8 @@ import Router from 'koa-router';
 import { HttpStatus } from '../../lib';
 import { LinkSchema } from '../../schema';
 
-import { findDomainByLink } from '../../lib/Domain';
 import { createLink, findTinyLink, saveLink } from '../../lib/Link';
+import { findDomain, findDomainByLink } from '../../lib/Domain';
 
 const router: Router = new Router();
 
@@ -67,9 +67,11 @@ router.post('/', async (ctx: ParameterizedContext) => {
 				newLink: newLink,
 				domain_id: value.domain_id
 			});
-			if(result) {
+			const domain_data = await findDomain({ db: ctx.maria, domain_id: value.domain_id });
+			if(result && domain_data) {
 				ctx.status = HttpStatus.SUCCESS.CREATED.status;
 				ctx.body = {
+					domain: domain_data.domain,
 					long_url: newLink.long_url,
 					tiny_url: newLink.tiny_url,
 					create_date: newLink.create_date
