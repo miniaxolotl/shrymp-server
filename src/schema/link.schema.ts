@@ -12,4 +12,5 @@ export const LinkSchema = object({
 	tiny_url: joi.string()
 		.default(null)
 		.optional()
+		.allow(''),
 });
