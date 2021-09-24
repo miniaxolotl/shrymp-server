@@ -80,3 +80,31 @@ export const findTinyLink = async ({
 		return null;
 	}
 };
+
+export const findLinkDomain = async ({
+	db,
+	tiny_url,
+	domain_id
+}: {
+	db: Connection;
+	tiny_url: string;
+	domain_id: number;
+}): Promise<LinkDomainModel | null> => {
+	const linkDomain: LinkDomainModel[] = await db.query(`
+		select t1.* from
+		(SELECT link_domain.domain_id, link.tiny_url, link.long_url, link.create_date FROM link_domain
+		INNER JOIN link
+		ON link.id = link_domain.link_id
+		WHERE link.tiny_url = ?) as t1
+		INNER JOIN domain
+		ON domain.id = t1.domain_id
+		WHERE domain.id = ?`,
+	[ tiny_url, domain_id ]
+	);
+	
+	if(linkDomain.length > 0) {
+		return linkDomain[0];
+	} else {
+		return null;
+	}
+};

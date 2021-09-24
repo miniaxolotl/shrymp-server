@@ -4,7 +4,7 @@ import Router from 'koa-router';
 import { HttpStatus } from '../../lib';
 import { LinkSchema } from '../../schema';
 
-import { createLink, findTinyLink, saveLink } from '../../lib/Link';
+import { createLink, findLinkDomain, findTinyLink, saveLink } from '../../lib/Link';
 import { findDomain, findDomainByLink } from '../../lib/Domain';
 
 const router: Router = new Router();
@@ -56,8 +56,15 @@ router.post('/', async (ctx: ParameterizedContext) => {
 		error.details.forEach(e => { (ctx.body as any).errors.push(e.message); });
 		return;
 	} else {
-		const exists = await findTinyLink({ db: ctx.maria, tiny_url: value.tiny_url });
-		if(!exists) {
+		const linkCollision = await findLinkDomain({
+			db: ctx.maria,
+			tiny_url: value.tiny_url,
+			domain_id: value.domain_id
+		});
+		
+		console.log(linkCollision);
+		
+		if(!linkCollision) {
 			const newLink = createLink({
 				long_url: value.long_url,
 				tiny_url: value.tiny_url

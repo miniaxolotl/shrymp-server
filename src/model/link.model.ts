@@ -8,7 +8,7 @@ export class LinkModel {
 	@Column({ type: 'varchar', nullable: false })
 	long_url: string | undefined;
 
-	@Column({ type: 'varchar', nullable: false, unique: true })
+	@Column({ type: 'varchar', nullable: false, unique: false })
 	tiny_url: string | undefined;
 
 	@CreateDateColumn()
