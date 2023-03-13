@@ -62,33 +62,33 @@ const socket_router = new Router();
 
 /**** maria *****/
 
-(async () => {
-	createConnection({
-		...db_config.maria,
-		type: 'mariadb',
-		entities: [
-			DomainModel,
-			LinkDomainModel,
-			LinkModel
-		],
-		synchronize: !server_config.production
-	}).then(async (connection) => {
-		(app.context as any).maria = connection;
-		// eslint-disable-next-line no-console
-		console.log('connected to database: mariadb');
+// (async () => {
+// 	createConnection({
+// 		...db_config.maria,
+// 		type: 'mariadb',
+// 		entities: [
+// 			DomainModel,
+// 			LinkDomainModel,
+// 			LinkModel
+// 		],
+// 		synchronize: !server_config.production
+// 	}).then(async (connection) => {
+// 		(app.context as any).maria = connection;
+// 		// eslint-disable-next-line no-console
+// 		console.log('connected to database: mariadb');
 
-		await loadAllDomain({ db: connection }).then(() => {
-			// eslint-disable-next-line no-console
-			console.log('domains: success');
-		}).catch(() => {
-			// eslint-disable-next-line no-console
-			console.log('domains: failure');
-		});
-	}).catch((error) => {
-		// eslint-disable-next-line no-console
-		console.log(error);
-	});
-})();
+// 		await loadAllDomain({ db: connection }).then(() => {
+// 			// eslint-disable-next-line no-console
+// 			console.log('domains: success');
+// 		}).catch(() => {
+// 			// eslint-disable-next-line no-console
+// 			console.log('domains: failure');
+// 		});
+// 	}).catch((error) => {
+// 		// eslint-disable-next-line no-console
+// 		console.log(error);
+// 	});
+// })();
 
 /************************************************
  * services
