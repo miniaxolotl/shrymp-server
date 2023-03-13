@@ -41,54 +41,54 @@ const socket_router = new Router();
 
 /**** mongo *****/
 
-(async () => {
-	createConnection({
-		...db_config.mongo,
-		type: 'mongodb',
-		entities: [
-
-		],
-		useUnifiedTopology: true,
-		synchronize: !server_config.production
-	}).then((connection) => {
-		(app.context as any).mongo = connection;
-		// eslint-disable-next-line no-console
-		console.log('connected to database: mongodb');
-	}).catch((error) => {
-		// eslint-disable-next-line no-console
-		console.log(error);
-	});
-})();
-
-/**** maria *****/
-
 // (async () => {
 // 	createConnection({
-// 		...db_config.maria,
-// 		type: 'mariadb',
+// 		...db_config.mongo,
+// 		type: 'mongodb',
 // 		entities: [
-// 			DomainModel,
-// 			LinkDomainModel,
-// 			LinkModel
-// 		],
-// 		synchronize: !server_config.production
-// 	}).then(async (connection) => {
-// 		(app.context as any).maria = connection;
-// 		// eslint-disable-next-line no-console
-// 		console.log('connected to database: mariadb');
 
-// 		await loadAllDomain({ db: connection }).then(() => {
-// 			// eslint-disable-next-line no-console
-// 			console.log('domains: success');
-// 		}).catch(() => {
-// 			// eslint-disable-next-line no-console
-// 			console.log('domains: failure');
-// 		});
+// 		],
+// 		useUnifiedTopology: true,
+// 		synchronize: !server_config.production
+// 	}).then((connection) => {
+// 		(app.context as any).mongo = connection;
+// 		// eslint-disable-next-line no-console
+// 		console.log('connected to database: mongodb');
 // 	}).catch((error) => {
 // 		// eslint-disable-next-line no-console
 // 		console.log(error);
 // 	});
 // })();
+
+/**** maria *****/
+
+(async () => {
+	createConnection({
+		...db_config.maria,
+		type: 'mariadb',
+		entities: [
+			DomainModel,
+			LinkDomainModel,
+			LinkModel
+		],
+		synchronize: !server_config.production
+	}).then(async (connection) => {
+		(app.context as any).maria = connection;
+		// eslint-disable-next-line no-console
+		console.log('connected to database: mariadb');
+
+		await loadAllDomain({ db: connection }).then(() => {
+			// eslint-disable-next-line no-console
+			console.log('domains: success');
+		}).catch(() => {
+			// eslint-disable-next-line no-console
+			console.log('domains: failure');
+		});
+	}).catch((error) => {
+		// eslint-disable-next-line no-console
+		console.log(error);
+	});
+})();
 
 /************************************************
  * services
